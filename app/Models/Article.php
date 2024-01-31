@@ -22,14 +22,14 @@ class Article extends Model
      *
      * @var array
      */
-    protected $fillable = ['article_id',    'title',    'url',    'image_url',    'news_site',    'summary',    'published_at',    'last_updated_at',    'featured'];
+    protected $fillable = ['article_id', 'title', 'url', 'image_url', 'news_site', 'summary', 'published_at', 'last_updated_at', 'featured'];
 
-    function launches(): HasMany
+    public function launches(): HasMany
     {
         return $this->hasMany(ArticleLaunch::class);
     }
 
-    function events(): HasMany
+    public function events(): HasMany
     {
         return $this->hasMany(ArticleEvent::class);
     }
