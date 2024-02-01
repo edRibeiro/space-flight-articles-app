@@ -6,10 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Symfony\Component\HttpFoundation\Response;
 
 class ArticleController extends Controller
 {
+    use ApiResponser;
+
     /**
      * Display a listing of the resource.
      */
@@ -23,30 +28,108 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'spaceflight_id' => 'required|unique:articles,spaceflight_id',
+            'title' => 'required|string',
+            'url' => 'required|url',
+            'image_url' => 'required|url',
+            'news_site' => 'required|string',
+            'summary' => 'required|string',
+            'published_at' => 'required|date',
+            'last_updated_at' => 'required|date',
+            'featured' => 'required|boolean'
+        ];
+
+        $this->validate($request, $rules);
+
+        $article = Article::create($request->only([
+            'spaceflight_id',
+            'title',
+            'url',
+            'image_url',
+            'news_site',
+            'summary',
+            'published_at',
+            'last_updated_at',
+            'featured'
+        ]));
+        return new ArticleResource($article);
     }
 
     /**
+     * TO DO: Tratar 404.
+     * Resolver o padrão do atributo para ser Inteiro.
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(int $id)
     {
-        return new ArticleResource(Article::findOrFail($id));
+        $article = Article::where('id', '=', $id)->first();
+        if (!$article) {
+            return $this->errorResponse(Response::$statusTexts[Response::HTTP_NOT_FOUND], Response::HTTP_NOT_FOUND);
+        }
+        return new ArticleResource($article);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, int $id)
     {
-        //
+
+        $article = Article::where('id', '=', $id)->first();
+        if (!$article) {
+            return $this->errorResponse(Response::$statusTexts[Response::HTTP_NOT_FOUND], Response::HTTP_NOT_FOUND);
+        }
+
+        $rules = [
+            'spaceflight_id' => [
+                'required',
+                Rule::unique('articles')->ignore($article->id),
+            ],
+            'title' => 'required|string',
+            'url' => 'required|url',
+            'image_url' => 'required|url',
+            'news_site' => 'required|string',
+            'summary' => 'required|string',
+            'published_at' => 'required|date',
+            'last_updated_at' => 'required|date',
+            'featured' => 'required|boolean'
+        ];
+
+        $this->validate($request, $rules);
+
+        $article->fill($request->only([
+            'spaceflight_id',
+            'title',
+            'url',
+            'image_url',
+            'news_site',
+            'summary',
+            'published_at',
+            'last_updated_at',
+            'featured'
+        ]));
+        if ($article->isDirty()) {
+            return $this->errorResponse(
+                'You need to specify any different value to update',
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+        $article->save();
+        return new ArticleResource($article);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
-        //
+        $article = Article::where('id', '=', $id)->first();
+        if (!$article) {
+            return $this->errorResponse(Response::$statusTexts[Response::HTTP_NOT_FOUND], Response::HTTP_NOT_FOUND);
+        }
+        $article->delete();
+
+        return response()->json(['data' => ["message" => "Article successfully deleted."]], Response::HTTP_OK);
     }
 }

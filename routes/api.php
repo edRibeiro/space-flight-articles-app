@@ -20,6 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::controller(ArticleController::class)->group(function () {
-    Route::get('/articles/{id}', 'show')->name('api.articles.show');
     Route::get('/articles', 'index')->name('api.articles.index');
+    Route::get('/articles/{id}', 'show')->name('api.articles.show');
+    Route::post('/articles', 'store')->name('api.articles.store');
+    Route::put('/articles/{id}', 'update')->name('api.articles.update');
+    Route::delete('/articles/{id}', 'destroy')->name('api.articles.delete');
 });
