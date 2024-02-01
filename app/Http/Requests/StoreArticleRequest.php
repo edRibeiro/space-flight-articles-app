@@ -11,7 +11,7 @@ class StoreArticleRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class StoreArticleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'article_id' => 'required|unique:articles,article_id',
+            'spaceflight_id' => 'required|unique:articles,article_id',
             'title' => 'required|string',
             'url' => 'required|url',
             'image_url' => 'required|url',
@@ -35,7 +35,7 @@ class StoreArticleRequest extends FormRequest
             'events.*.event_id' => 'required_if:events,!=,null|uuid',
             'events.*.provider' => 'required_if:events,!=,null|string',
             'launches' => 'array|nullable',
-            'launches.*.event_id' => 'required_if:launches,!=,null|uuid',
+            'launches.*.launch_id' => 'required_if:launches,!=,null|uuid',
             'launches.*.provider' => 'required_if:launches,!=,null|string'
         ];
     }

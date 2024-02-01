@@ -22,7 +22,22 @@ class Article extends Model
      *
      * @var array
      */
-    protected $fillable = ['article_id', 'title', 'url', 'image_url', 'news_site', 'summary', 'published_at', 'last_updated_at', 'featured'];
+    protected $fillable = [
+        'spaceflight_id',
+        'title',
+        'url',
+        'image_url',
+        'news_site',
+        'summary',
+        'published_at',
+        'last_updated_at',
+        'featured'
+    ];
+
+    protected $casts = [
+        'published_at' => 'datetime',
+        'last_updated_at' => 'datetime',
+    ];
 
     /* public function launches(): HasMany
     {

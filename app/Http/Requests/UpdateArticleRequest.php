@@ -24,7 +24,7 @@ class UpdateArticleRequest extends FormRequest
         $articleId = $this->route('article'); // Obtém o ID do artigo da rota
 
         return [
-            'article_id' => 'required|unique:articles,article_id,' . $articleId,
+            'spaceflight_id' => 'required|unique:articles,article_id,' . $articleId,
             'title' => 'required|string',
             'url' => 'required|url',
             'image_url' => 'required|url',
@@ -37,7 +37,7 @@ class UpdateArticleRequest extends FormRequest
             'events.*.event_id' => 'required_if:events,!=,null|uuid',
             'events.*.provider' => 'required_if:events,!=,null|string',
             'launches' => 'array|nullable',
-            'launches.*.event_id' => 'required_if:launches,!=,null|uuid',
+            'launches.*.launch_id' => 'required_if:launches,!=,null|uuid',
             'launches.*.provider' => 'required_if:launches,!=,null|string',
         ];
     }
