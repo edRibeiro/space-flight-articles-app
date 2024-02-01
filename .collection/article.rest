@@ -1,0 +1,43 @@
+### Variables
+@apiurl = http://localhost:8080/api
+
+### GET articles
+GET {{apiurl}}/articles HTTP/1.1
+
+### POST articles
+POST {{apiurl}}/articles HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 22444,
+    "title": "Space Force seeks to clear up confusion over selection of Northrop Grumman's refueling tech",
+    "url": "https://spacenews.com/space-force-seeks-to-clear-up-confusion-over-selection-of-northrop-grummans-refueling-tech/",
+    "image_url": "https://i0.wp.com/spacenews.com/wp-content/uploads/2024/01/NorthropGrummansSpaceLogisticsContinuesRevolutionarySatelliteLife-ExtensionWorkwithSaleofThirdMissionExtensionPod-scaled.jpg",
+    "news_site": "SpaceNews",
+    "summary": "Col. Joyce Bulson said the Space Systems Command ontinues to evaluate other refueling solutions for potential use.",
+    "published_at": "2024-01-31T21:25:34Z",
+    "updated_at": "2024-01-31T21:26:18.888000Z",
+    "featured": false
+}
+
+### GET one article
+GET {{apiurl}}/articles/9 HTTP/1.1
+
+### PUT articles
+PUT {{apiurl}}/articles/11 HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 22444,
+    "title": "Space Force seeks to clear up confusion over selection of Northrop Grumman's refueling tech",
+    "url": "https://spacenews.com/space-force-seeks-to-clear-up-confusion-over-selection-of-northrop-grummans-refueling-tech/",
+    "image_url": "https://i0.wp.com/spacenews.com/wp-content/uploads/2024/01/NorthropGrummansSpaceLogisticsContinuesRevolutionarySatelliteLife-ExtensionWorkwithSaleofThirdMissionExtensionPod-scaled.jpg",
+    "news_site": "SpaceNews",
+    "summary": "Col. Joyce Bulson said the Space Systems Command ontinues to evaluate other refueling solutions for potential use.",
+    "published_at": "2024-01-31T21:25:34Z",
+    "updated_at": "2024-01-31T21:26:18.888000Z",
+    "featured": false
+}
+
+### GET one article
+DELETE  {{apiurl}}/articles/9 HTTP/1.1

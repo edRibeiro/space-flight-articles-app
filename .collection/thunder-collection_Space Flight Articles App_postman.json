@@ -1,0 +1,178 @@
+{
+    "info": {
+        "_postman_id": "b615ca5e-4f55-43cb-933d-bc77af9b385a",
+        "name": "Space Flight Articles App",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "FindAll",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": ":base_url/articles",
+                    "query": [],
+                    "variable": [
+                        {
+                            "key": "base_url",
+                            "value": ""
+                        }
+                    ],
+                    "path": [
+                        "articles"
+                    ],
+                    "host": [
+                        ""
+                    ],
+                    "port": "base_url"
+                }
+            }
+        },
+        {
+            "name": "FindOne",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": ":base_url/articles/12",
+                    "query": [],
+                    "variable": [
+                        {
+                            "key": "base_url",
+                            "value": ""
+                        }
+                    ],
+                    "path": [
+                        "articles",
+                        "12"
+                    ],
+                    "host": [
+                        ""
+                    ],
+                    "port": "base_url"
+                }
+            }
+        },
+        {
+            "name": "Create",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": ":base_url/articles",
+                    "query": [],
+                    "variable": [
+                        {
+                            "key": "base_url",
+                            "value": ""
+                        }
+                    ],
+                    "path": [
+                        "articles"
+                    ],
+                    "host": [
+                        ""
+                    ],
+                    "port": "base_url"
+                },
+                "header": [
+                    {
+                        "key": "Accept",
+                        "value": "*/*",
+                        "disabled": true
+                    },
+                    {
+                        "key": "User-Agent",
+                        "value": "Thunder Client (https://www.thunderclient.com)",
+                        "disabled": true
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"spaceflight_id\": 22440,\n  \"title\": \"Space Force seeks to clear up confusion over selection of Northrop Grumman's refueling tech\",\n  \"url\": \"https://spacenews.com/space-force-seeks-to-clear-up-confusion-over-selection-of-northrop-grummans-refueling-tech/\",\n  \"image_url\": \"https://i0.wp.com/spacenews.com/wp-content/uploads/2024/01/NorthropGrummansSpaceLogisticsContinuesRevolutionarySatelliteLife-ExtensionWorkwithSaleofThirdMissionExtensionPod-scaled.jpg\",\n  \"news_site\": \"SpaceNews\",\n  \"summary\": \"Col. Joyce Bulson said the Space Systems Command ontinues to evaluate other refueling solutions for potential use.\",\n  \"published_at\": \"2024-01-31T21:25:34Z\",\n  \"last_updated_at\": \"2024-01-31T21:26:18.888000Z\",\n   \"featured\": false\n}"
+                }
+            }
+        },
+        {
+            "name": "Update",
+            "request": {
+                "method": "PUT",
+                "url": {
+                    "raw": ":base_url/articles/11",
+                    "query": [],
+                    "variable": [
+                        {
+                            "key": "base_url",
+                            "value": ""
+                        }
+                    ],
+                    "path": [
+                        "articles",
+                        "11"
+                    ],
+                    "host": [
+                        ""
+                    ],
+                    "port": "base_url"
+                },
+                "header": [
+                    {
+                        "key": "Accept",
+                        "value": "*/*",
+                        "disabled": true
+                    },
+                    {
+                        "key": "User-Agent",
+                        "value": "Thunder Client (https://www.thunderclient.com)",
+                        "disabled": true
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"spaceflight_id\": 22440,\n  \"title\": \"Space Force seeks to clear up confusion over selection of Northrop Grumman's refueling tech\",\n  \"url\": \"https://spacenews.com/space-force-seeks-to-clear-up-confusion-over-selection-of-northrop-grummans-refueling-tech/\",\n  \"image_url\": \"https://i0.wp.com/spacenews.com/wp-content/uploads/2024/01/NorthropGrummansSpaceLogisticsContinuesRevolutionarySatelliteLife-ExtensionWorkwithSaleofThirdMissionExtensionPod-scaled.jpg\",\n  \"news_site\": \"SpaceNews\",\n  \"summary\": \"Col. Joyce Bulson said the Space Systems Command ontinues to evaluate other refueling solutions for potential use.\",\n  \"published_at\": \"2024-01-31T21:25:34Z\",\n  \"last_updated_at\": \"2024-01-31T21:26:18.888000Z\",\n   \"featured\": false\n}"
+                }
+            }
+        },
+        {
+            "name": "Delete",
+            "request": {
+                "method": "DELETE",
+                "url": {
+                    "raw": ":base_url/articles/13",
+                    "query": [],
+                    "variable": [
+                        {
+                            "key": "base_url",
+                            "value": ""
+                        }
+                    ],
+                    "path": [
+                        "articles",
+                        "13"
+                    ],
+                    "host": [
+                        ""
+                    ],
+                    "port": "base_url"
+                }
+            }
+        }
+    ]
+}
