@@ -24,7 +24,7 @@ class Article extends Model
      */
     protected $fillable = ['article_id', 'title', 'url', 'image_url', 'news_site', 'summary', 'published_at', 'last_updated_at', 'featured'];
 
-    public function launches(): HasMany
+    /* public function launches(): HasMany
     {
         return $this->hasMany(ArticleLaunch::class);
     }
@@ -32,5 +32,5 @@ class Article extends Model
     public function events(): HasMany
     {
         return $this->hasMany(ArticleEvent::class);
-    }
+    } */
 }

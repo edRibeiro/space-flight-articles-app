@@ -33,8 +33,8 @@ class ArticleLaunch extends Model
      */
     protected $fillable = ['article_id', 'launch_id', 'provider'];
 
-    public function article(): BelongsTo
+    /*  public function article(): BelongsTo
     {
         return $this->belongsTo(Article::class, 'article_id');
-    }
+    } */
 }
