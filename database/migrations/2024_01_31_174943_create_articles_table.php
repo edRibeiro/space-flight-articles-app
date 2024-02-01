@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
-            $table->string('article_id')->unique();
+            $table->string('spaceflight_id')->unique();
             $table->string('title');
             $table->string('url');
             $table->string('image_url');
