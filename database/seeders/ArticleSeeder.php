@@ -19,7 +19,7 @@ class ArticleSeeder extends Seeder
             ->count(10)
             ->state(new Sequence(
                 fn (Sequence $sequence) => [
-                    'article_id' => $sequence->index,
+                    'spaceflight_id' => ++($sequence->index),
                     'title' => fake()->sentence(),
                     'url' => fake()->url(),
                     'image_url' => fake()->imageUrl(),
