@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
+use App\Repository\ArticleRepository;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -20,7 +21,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return  new ArticleCollection(Article::paginate());
+        $articles = ArticleRepository::paginate(2);
+        return  new ArticleCollection($articles);
     }
 
     /**
@@ -42,17 +44,7 @@ class ArticleController extends Controller
 
         $this->validate($request, $rules);
 
-        $article = Article::create($request->only([
-            'spaceflight_id',
-            'title',
-            'url',
-            'image_url',
-            'news_site',
-            'summary',
-            'published_at',
-            'last_updated_at',
-            'featured'
-        ]));
+        $article = ArticleRepository::create($request->input());
         return new ArticleResource($article);
     }
 
@@ -63,7 +55,7 @@ class ArticleController extends Controller
      */
     public function show(int $id)
     {
-        $article = Article::where('id', '=', $id)->first();
+        $article = ArticleRepository::find($id);
         if (!$article) {
             return $this->errorResponse(Response::$statusTexts[Response::HTTP_NOT_FOUND], Response::HTTP_NOT_FOUND);
         }
@@ -76,7 +68,7 @@ class ArticleController extends Controller
     public function update(Request $request, int $id)
     {
 
-        $article = Article::where('id', '=', $id)->first();
+        $article = ArticleRepository::find($id);
         if (!$article) {
             return $this->errorResponse(Response::$statusTexts[Response::HTTP_NOT_FOUND], Response::HTTP_NOT_FOUND);
         }
@@ -109,13 +101,13 @@ class ArticleController extends Controller
             'last_updated_at',
             'featured'
         ]));
-        if ($article->isDirty()) {
+        if ($article->wasChanged()) {
             return $this->errorResponse(
                 'You need to specify any different value to update',
                 Response::HTTP_UNPROCESSABLE_ENTITY
             );
         }
-        $article->save();
+        $article = ArticleRepository::update($article->id, $article->toArray());
         return new ArticleResource($article);
     }
 
@@ -124,11 +116,11 @@ class ArticleController extends Controller
      */
     public function destroy(int $id)
     {
-        $article = Article::where('id', '=', $id)->first();
+        $article = ArticleRepository::find($id);
         if (!$article) {
             return $this->errorResponse(Response::$statusTexts[Response::HTTP_NOT_FOUND], Response::HTTP_NOT_FOUND);
         }
-        $article->delete();
+        ArticleRepository::delete($article->id);
 
         return response()->json(['data' => ["message" => "Article successfully deleted."]], Response::HTTP_OK);
     }

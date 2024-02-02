@@ -34,11 +34,18 @@ class Article extends Model
         'featured'
     ];
 
-    protected $casts = [
+    protected $dates = [
+        'published_at',
+        'created_at',
+        'updated_at',
+        'last_updated_at'
+    ];
+
+    /* protected $casts = [
         'published_at' => 'datetime',
         'last_updated_at' => 'datetime',
     ];
-
+ */
     /* public function launches(): HasMany
     {
         return $this->hasMany(ArticleLaunch::class);
