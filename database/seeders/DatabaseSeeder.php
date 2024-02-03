@@ -16,21 +16,5 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Article::factory()
-            ->count(10)
-            ->state(new Sequence(
-                fn (Sequence $sequence) => [
-                    'spaceflight_id' => ++($sequence->index),
-                    'title' => fake()->sentence(),
-                    'url' => fake()->url(),
-                    'image_url' => fake()->imageUrl(),
-                    'news_site' => fake()->sentence(2),
-                    'summary' => fake()->sentence(8),
-                    'published_at' => fake()->dateTime(),
-                    'last_updated_at' => fake()->dateTime(),
-                    'featured' => fake()->boolean()
-                ],
-            ))
-            ->create();
     }
 }
