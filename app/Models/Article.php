@@ -41,11 +41,11 @@ class Article extends Model
         'last_updated_at'
     ];
 
-    /* protected $casts = [
+    protected $casts = [
         'published_at' => 'datetime',
         'last_updated_at' => 'datetime',
     ];
- */
+
     /* public function launches(): HasMany
     {
         return $this->hasMany(ArticleLaunch::class);
