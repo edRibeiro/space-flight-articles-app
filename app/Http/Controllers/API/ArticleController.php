@@ -2,26 +2,37 @@
 
 namespace App\Http\Controllers\API;
 
+use App\DTO\Articles\CreateArticleDTO;
+use App\DTO\Articles\UpdateArticleDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\ArticleResource;
-use App\Models\Article;
-use App\Repository\ArticleRepository;
+use App\Services\Contracts\ArticleServiceInterface;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ArticleController extends Controller
 {
     use ApiResponser;
+
+    protected const REQUIRED_DATE_RULE = 'required|date';
+    protected const REQUIRED_STRING_RULE = 'required|string';
+    protected const REQUIRED_URL_RULE = 'required|url';
+
+    public function __construct(
+        public ArticleServiceInterface $service,
+    ) {
+    }
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $articles = ArticleRepository::paginate(2);
+        $articles = $this->service->paginate();
         return  new ArticleCollection($articles);
     }
 
@@ -32,19 +43,19 @@ class ArticleController extends Controller
     {
         $rules = [
             'spaceflight_id' => 'required|unique:articles,spaceflight_id',
-            'title' => 'required|string',
-            'url' => 'required|url',
-            'image_url' => 'required|url',
-            'news_site' => 'required|string',
-            'summary' => 'required|string',
-            'published_at' => 'required|date',
-            'last_updated_at' => 'required|date',
+            'title' => self::REQUIRED_STRING_RULE,
+            'url' => self::REQUIRED_URL_RULE,
+            'image_url' => self::REQUIRED_URL_RULE,
+            'news_site' => self::REQUIRED_STRING_RULE,
+            'summary' => self::REQUIRED_STRING_RULE,
+            'published_at' => self::REQUIRED_DATE_RULE,
+            'last_updated_at' => self::REQUIRED_DATE_RULE,
             'featured' => 'required|boolean'
         ];
 
         $this->validate($request, $rules);
-
-        $article = ArticleRepository::create($request->input());
+        $dto = CreateArticleDTO::makeFromRequest($request);
+        $article = $this->service->new($dto);
         return new ArticleResource($article);
     }
 
@@ -55,9 +66,9 @@ class ArticleController extends Controller
      */
     public function show(int $id)
     {
-        $article = ArticleRepository::find($id);
+        $article = $this->service->findOne($id);
         if (!$article) {
-            return $this->errorResponse(Response::$statusTexts[Response::HTTP_NOT_FOUND], Response::HTTP_NOT_FOUND);
+            return $this->errorResponse('Article not found', Response::HTTP_NOT_FOUND);
         }
         return new ArticleResource($article);
     }
@@ -67,47 +78,26 @@ class ArticleController extends Controller
      */
     public function update(Request $request, int $id)
     {
-
-        $article = ArticleRepository::find($id);
-        if (!$article) {
-            return $this->errorResponse(Response::$statusTexts[Response::HTTP_NOT_FOUND], Response::HTTP_NOT_FOUND);
-        }
-
         $rules = [
             'spaceflight_id' => [
                 'required',
-                Rule::unique('articles')->ignore($article->id),
+                Rule::unique('articles')->ignore($id),
             ],
-            'title' => 'required|string',
-            'url' => 'required|url',
-            'image_url' => 'required|url',
-            'news_site' => 'required|string',
-            'summary' => 'required|string',
-            'published_at' => 'required|date',
-            'last_updated_at' => 'required|date',
+            'title' => self::REQUIRED_STRING_RULE,
+            'url' => self::REQUIRED_URL_RULE,
+            'image_url' => self::REQUIRED_URL_RULE,
+            'news_site' => self::REQUIRED_STRING_RULE,
+            'summary' => self::REQUIRED_STRING_RULE,
+            'published_at' => self::REQUIRED_DATE_RULE,
+            'last_updated_at' => self::REQUIRED_DATE_RULE,
             'featured' => 'required|boolean'
         ];
-
         $this->validate($request, $rules);
-
-        $article->fill($request->only([
-            'spaceflight_id',
-            'title',
-            'url',
-            'image_url',
-            'news_site',
-            'summary',
-            'published_at',
-            'last_updated_at',
-            'featured'
-        ]));
-        if ($article->wasChanged()) {
-            return $this->errorResponse(
-                'You need to specify any different value to update',
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            );
+        $dto = UpdateArticleDTO::makeFromRequest($request, $id);
+        $article = $this->service->update($dto, $id);
+        if (!$article) {
+            return $this->errorResponse(Response::$statusTexts[Response::HTTP_NOT_FOUND], Response::HTTP_NOT_FOUND);
         }
-        $article = ArticleRepository::update($article->id, $article->toArray());
         return new ArticleResource($article);
     }
 
@@ -116,12 +106,11 @@ class ArticleController extends Controller
      */
     public function destroy(int $id)
     {
-        $article = ArticleRepository::find($id);
-        if (!$article) {
+        try {
+            $this->service->delete($id);
+        } catch (NotFoundHttpException $th) {
             return $this->errorResponse(Response::$statusTexts[Response::HTTP_NOT_FOUND], Response::HTTP_NOT_FOUND);
         }
-        ArticleRepository::delete($article->id);
-
         return response()->json(['data' => ["message" => "Article successfully deleted."]], Response::HTTP_OK);
     }
 }
