@@ -10,10 +10,9 @@ use Illuminate\Support\Facades\Http;
  * Space Flight News Api
  * https://api.spaceflightnewsapi.net
  */
-class SpaceFlightNewsApi
+class SpaceFlightNewsService
 {
     use HasArticles;
-    // use HasTeams;
 
     public PendingRequest $api;
 

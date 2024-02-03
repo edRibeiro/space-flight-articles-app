@@ -2,16 +2,16 @@
 
 namespace App\SpaceFlightNews\Endpoints;
 
-use App\SpaceFlightNews\SpaceFlightNewsApi;
+use App\Services\SpaceFlightNews\SpaceFlightNewsService;
 use Illuminate\Support\Collection;
 
 class BaseEndpoint
 {
-    protected SpaceFlightNewsApi $service;
+    protected SpaceFlightNewsService $service;
 
     public function __construct()
     {
-        $this->service = new SpaceFlightNewsApi();
+        $this->service = new SpaceFlightNewsService();
     }
 
     protected function transform(mixed $json, string $entity): Collection

@@ -2,13 +2,13 @@
 
 namespace App\SpaceFlightNews\Facades;
 
-use App\SpaceFlightNews\SpaceFlightNewsApi;
+use App\Services\SpaceFlightNews\SpaceFlightNewsService;
 use Illuminate\Support\Facades\Facade;
 
 class SpaceFlightNews extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return SpaceFlightNewsApi::class;
+        return SpaceFlightNewsService::class;
     }
 }
