@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
 
 class SaveArticlesJob implements ShouldQueue
 {
@@ -17,7 +18,7 @@ class SaveArticlesJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public CreateArticleDTO $dto)
+    public function __construct(public Collection $dtos)
     {
         //
     }
@@ -27,6 +28,8 @@ class SaveArticlesJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Article::create($this->dto->toArray());
+        $this->dtos->each(function (CreateArticleDTO $dto) {
+            Article::create($dto->toArray());
+        });
     }
 }

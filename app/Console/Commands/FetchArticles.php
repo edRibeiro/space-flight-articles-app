@@ -54,7 +54,6 @@ class FetchArticles extends Command
         if ($articleAmount > 0) {
             $articleEntities =  $articleEntities->where('spaceflight_id', '>', $maxSpaceflightId);
         }
-
         $this->processArticles($articleEntities);
     }
 
@@ -65,12 +64,13 @@ class FetchArticles extends Command
      */
     protected function processArticles($articleEntities)
     {
+        $articleEntities = $articleEntities->chunk(100);
         $bar = $this->output->createProgressBar(count($articleEntities));
         $bar->start();
 
-        foreach ($articleEntities as $article) {
-            $articleDTO = CreateArticleDTO::makeFromArticleEntity($article);
-            SaveArticlesJob::dispatch($articleDTO);
+        foreach ($articleEntities as $articles) {
+            $articlesDto = $articles->map(fn ($article) => CreateArticleDTO::makeFromArticleEntity($article));
+            SaveArticlesJob::dispatch($articlesDto);
             $bar->advance();
         }
 
