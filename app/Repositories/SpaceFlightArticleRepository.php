@@ -1,16 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Repository;
 
 use App\Repositories\Contracts\SpaceFlightArticleRepositoryInterface;
-use App\SpaceFlightNews\SpaceFlightNewsService;
+use App\SpaceFlightNews\Contracts\SpaceFlightNewsServiceInterface;
 
 class SpaceFlightArticleRepository implements SpaceFlightArticleRepositoryInterface
 {
     public function __construct(
-        protected SpaceFlightNewsService $repository
+        protected SpaceFlightNewsServiceInterface $repository
     ) {
     }
 

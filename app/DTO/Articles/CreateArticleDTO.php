@@ -2,6 +2,7 @@
 
 namespace App\DTO\Articles;
 
+use App\SpaceFlightNews\Entities\Article as ArticleEntity;
 use Illuminate\Http\Request;
 
 class CreateArticleDTO
@@ -50,6 +51,36 @@ class CreateArticleDTO
             $request->published_at,
             $request->last_updated_at,
             $request->featured
+        );
+    }
+
+    public static function makeFromArticleEntity(ArticleEntity $article): self
+    {
+        return new self(
+            $article->id,
+            $article->title,
+            $article->url,
+            $article->image_url,
+            $article->news_site,
+            $article->summary,
+            $article->published_at,
+            $article->updated_at,
+            $article->featured
+        );
+    }
+
+    public static function makeFromArray(array $data): self
+    {
+        return new self(
+            data_get($data, 'spaceflight_id'),
+            data_get($data, 'title'),
+            data_get($data, 'url'),
+            data_get($data, 'image_url'),
+            data_get($data, 'news_site'),
+            data_get($data, 'summary'),
+            data_get($data, 'published_at'),
+            data_get($data, 'updated_at'),
+            data_get($data, 'featured')
         );
     }
 

@@ -17,4 +17,7 @@ interface ArticleServiceInterface
         int $page = 1,
         int $totalPerPage = 15
     );
+    public function updateOrInsert(CreateArticleDTO $dto): Article|null;
+    public function count(): int;
+    public function getMaxSpaceflightId(): int;
 }

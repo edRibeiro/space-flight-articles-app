@@ -45,7 +45,21 @@ class ArticleService implements ArticleServiceInterface
         int $page = 1,
         int $totalPerPage = 15
     ) {
-
         return $this->repository->paginate($page, $totalPerPage);
+    }
+
+    public function updateOrInsert(CreateArticleDTO $dto): Article|null
+    {
+        return $this->repository->updateOrInsert($dto);
+    }
+
+    public function count(): int
+    {
+        return $this->repository->count();
+    }
+
+    public function getMaxSpaceflightId(): int
+    {
+        return $this->repository->getMaxSpaceflightId();
     }
 }

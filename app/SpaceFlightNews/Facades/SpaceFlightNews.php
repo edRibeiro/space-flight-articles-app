@@ -2,7 +2,7 @@
 
 namespace App\SpaceFlightNews\Facades;
 
-use App\Services\SpaceFlightNews\SpaceFlightNewsService;
+use App\SpaceFlightNews\SpaceFlightNewsService;
 use Illuminate\Support\Facades\Facade;
 
 class SpaceFlightNews extends Facade

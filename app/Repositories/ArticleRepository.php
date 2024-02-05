@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+
 
 namespace App\Repositories;
 
@@ -51,6 +51,7 @@ class ArticleRepository implements ArticleRepositoryInterface
         );
     }
 
+
     public function update(UpdateArticleDTO $dto, int $id): Article|null
     {
         $article = $this->model->find($id);
@@ -63,5 +64,23 @@ class ArticleRepository implements ArticleRepositoryInterface
         );
         $article->save();
         return $article;
+    }
+
+    public function updateOrInsert(CreateArticleDTO $dto): Article
+    {
+        return (object) $this->model->updateOrInsert(
+            (array) $dto->toArray(),
+            ['spaceflight_id' => $dto->spaceflightId]
+        );
+    }
+
+    public function count(): int
+    {
+        return $this->model->count();
+    }
+
+    public function getMaxSpaceflightId(): int
+    {
+        return $this->model->max('spaceflight_id') ?? 0;
     }
 }

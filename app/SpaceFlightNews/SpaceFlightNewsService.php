@@ -2,6 +2,7 @@
 
 namespace App\SpaceFlightNews;
 
+use App\SpaceFlightNews\Contracts\SpaceFlightNewsServiceInterface;
 use App\SpaceFlightNews\Endpoints\HasArticles;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Http;
  * Space Flight News Api
  * https://api.spaceflightnewsapi.net
  */
-class SpaceFlightNewsService
+class SpaceFlightNewsService implements SpaceFlightNewsServiceInterface
 {
     use HasArticles;
 
@@ -19,8 +20,7 @@ class SpaceFlightNewsService
     public function __construct()
     {
         $this->api = Http::withHeaders([
-            'X-Rapidapi-Key'  => config('services.sport_score.key'),
-            'X-Rapidapi-Host' => 'sportscore1.p.rapidapi.com',
+            'Content-Type' => 'application/json',
         ])->baseUrl('https://api.spaceflightnewsapi.net');
     }
 }

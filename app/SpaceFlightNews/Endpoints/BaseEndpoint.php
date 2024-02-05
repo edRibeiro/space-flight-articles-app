@@ -2,7 +2,7 @@
 
 namespace App\SpaceFlightNews\Endpoints;
 
-use App\Services\SpaceFlightNews\SpaceFlightNewsService;
+use App\SpaceFlightNews\SpaceFlightNewsService;
 use Illuminate\Support\Collection;
 
 class BaseEndpoint
